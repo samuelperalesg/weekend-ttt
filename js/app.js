@@ -39,7 +39,7 @@ function init(){
   boardState = [null, null, null, null, null, null, null, null, null]
   isWinner = null
   playerTurn = 1
-  // render()
+  render()
 }
 
 
@@ -62,19 +62,31 @@ function render(){
     squaresEl[idx].style.background = squareColor
     squaresEl[idx].style.background= squareLetter 
   })
+
+  if (!isWinner) {
+    messageEl.innerText = `It is ${playerTurn === 1 ? 'X' : 'O'}'s turn!'`
+  } else if (isWinner === 'T'){
+    messageEl.innerText = `Cat's game!` 
+  } else {
+    messageEl.innerText = `${isWinner === 1 ? 'X' : 'O'} is the winner!`
+  }
 }
 
 
 
-function handleClick(evt){
+function handleClick(evt) {
   let squareIdx = parseInt(evt.target.id.replace('sq', ''))
+  if (boardState[squareIdx] || isWinner) {
+    return 
+  }
+  boardState[squareIdx] = playerTurn
+  playerTurn *= -1
+
+  isWinner = getWinner()
+
+  render()
 }
 
-if (boardState[squareIdx] || isWinner) {
-  return 
+function getWinner () {
+  
 }
-
-boardState[squareIdx] = playerTurn
-playerTurn *= -1
-
-isWinner = getWinner()
