@@ -35,15 +35,24 @@ init ()
 
 function init(){
   // messageEl.innerText = 'Player 1, pick a square!'
-  squaresEl.innerHTML = ''
   boardState = [null, null, null, null, null, null, null, null, null]
   isWinner = null
   playerTurn = 1
   render()
 }
 
+function handleClick(evt) {
+  let squareIdx = parseInt(evt.target.id.replace('sq', ''))
+  if (boardState[squareIdx] || isWinner) {
+    return 
+  }
+  boardState[squareIdx] = playerTurn
+  playerTurn *= -1
 
+  isWinner = getWinner()
 
+  render()
+}
 
 function render(){
   boardState.forEach((square, idx) => {
@@ -72,21 +81,20 @@ function render(){
   }
 }
 
-
-
-function handleClick(evt) {
-  let squareIdx = parseInt(evt.target.id.replace('sq', ''))
-  if (boardState[squareIdx] || isWinner) {
-    return 
-  }
-  boardState[squareIdx] = playerTurn
-  playerTurn *= -1
-
-  isWinner = getWinner()
-
-  render()
-}
-
+//elegant way to do this?
 function getWinner () {
-  
+  if (Math.abs(boardState[0] + boardState[1] + boardState[2]) === 3) return boardState[0]
+  if (Math.abs(boardState[3] + boardState[4] + boardState[5]) === 3) return boardState[3]
+  if (Math.abs(boardState[6] + boardState[7] + boardState[8]) === 3) return boardState[6]
+  if (Math.abs(boardState[0] + boardState[3] + boardState[6]) === 3) return boardState[0]
+  if (Math.abs(boardState[1] + boardState[4] + boardState[7]) === 3) return boardState[1]
+  if (Math.abs(boardState[2] + boardState[5] + boardState[8]) === 3) return boardState[2]
+  if (Math.abs(boardState[0] + boardState[4] + boardState[8]) === 3) return boardState[0]
+  if (Math.abs(boardState[2] + boardState[4] + boardState[6]) === 3) return boardState[2]
+
+  if (boardState.includes(null)){
+    return null
+  } else {
+    return 'T'
+  }
 }
