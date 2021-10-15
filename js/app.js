@@ -23,8 +23,8 @@ const squaresEl = document.querySelectorAll('.square')
 const messageEl = document.querySelector('#message')
 const resetBtn = document.getElementById('reset')
 /*----------------------------- Event Listeners -----------------------------*/
-squaresEl.forEach((square) => {
-  square.addEventListener('click', handleClick)
+squaresEl.forEach((squareCell) => {
+  squareCell.addEventListener('click', handleClick)
 })
 
 resetBtn.addEventListener('click', init)
@@ -33,15 +33,14 @@ resetBtn.addEventListener('click', init)
 /*-------------------------------- Functions --------------------------------*/
 init ()
 
-function init(){
-  // messageEl.innerText = 'Player 1, pick a square!'
+function init() {
   boardState = [null, null, null, null, null, null, null, null, null]
   isWinner = null
   playerTurn = 1
   render()
 }
 
-function handleClick(evt) {
+function handleClick (evt) {
   let squareIdx = parseInt(evt.target.id.replace('sq', ''))
   if (boardState[squareIdx] || isWinner) {
     return 
@@ -54,23 +53,25 @@ function handleClick(evt) {
   render()
 }
 
-function render(){
-  boardState.forEach((square, idx) => {
-    let squareColor
-    let squareLetter
-    if (square === 1) {
-      squareColor = 'orange'
-      squareLetter = 'X'
-    } else if (square = -1) {
-      squareColor = 'green'
-      squareLetter = 'O'
-    } else if (square = null) {
-      squareColor = 'white'
-      squareLetter = ''
+function render() {
+  boardState.forEach((squareCell, idx) => {
+    let squareCellColor
+    let squareCellLetter
+    if (squareCell === 1) {
+      squareCellColor = 'orange'
+      squareCellLetter = 'X'
+    } else if (squareCell === -1) {
+      squareCellColor = 'blue'
+      squareCellLetter = 'O'
+    } else if (squareCell === null) {
+      squareCellColor = 'white'
+      squareCellLetter = ''
     }
-    squaresEl[idx].style.background = squareColor
-    squaresEl[idx].style.background= squareLetter 
+    squaresEl[idx].style.background = squareCellColor
+    squaresEl[idx].style.background= squareCellLetter 
   })
+  
+
 
   if (!isWinner) {
     messageEl.innerText = `It is ${playerTurn === 1 ? 'X' : 'O'}'s turn!'`
